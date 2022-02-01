@@ -1,7 +1,9 @@
+import { DadosService } from './../services/dados.service';
 import { Component } from '@angular/core';
 import { AlertController } from '@ionic/angular';
 import { ToastController } from '@ionic/angular';
 import { IFilmes } from '../models/IFilmes';
+import { Router } from '@angular/router';
 
 
 
@@ -20,7 +22,8 @@ export class Tab1Page {
       duracao: '2h 28m',
       classificacao: 76,
       cartaz: 'https://www.themoviedb.org/t/p/w600_and_h900_bestv2/fVzXp3NwovUlLe7fvoRynCmBPNc.jpg',
-      generos: ['Ação', 'Aventura', 'Ficção científica']
+      generos: ['Ação', 'Aventura', 'Ficção científica'],
+      pagina: '/homen-aranha'
     },
     {
       nome: 'Chernobyl: Abyss (2021)',
@@ -28,19 +31,21 @@ export class Tab1Page {
       duracao: '2h 16m',
       classificacao: 63,
       cartaz: 'https://www.themoviedb.org/t/p/w600_and_h900_bestv2/bnB2EkaY6HEdzwVkkH7dBHy6HmZ.jpg',
-      generos: ['Drama', 'História', 'Aventura']
+      generos: ['Drama', 'História', 'Aventura'],
+      pagina: '/chernobyl'
     },
-    {
-      nome: 'Hotel Transylvania 4 (2022)',
-      lancamento: '13-01-2022 (US',
-      duracao: '1h 28m',
-      classificacao: 76,
-      cartaz: 'https://www.themoviedb.org/t/p/w600_and_h900_bestv2/9PbtCo5IIkd26WPQfZUpPyn6fTz.jpg',
-      generos: ['Animação', 'Família', 'Fantasia', 'Comédia', 'Aventura']
-    }
   ];
 
-  constructor(public alertController: AlertController, public toastController: ToastController) { }
+  constructor(
+    public alertController: AlertController,
+    public toastController: ToastController,
+    public dadosService: DadosService,
+    public route: Router) { }
+
+    exibirFilme(filme: IFilmes){
+      this.dadosService.setData('filme', filme);
+      this.route.navigateByUrl('/dados-filme');
+    }
 
   async exibirAlertFavorito() {
     const alert = await this.alertController.create({
