@@ -1,9 +1,13 @@
+import { GeneroService } from './../services/genero.service';
+import { IListaFilmesA, IFilmesApi } from './../models/IFilmesApi';
+import { FilmeService } from './../services/filme.service';
 import { DadosService } from './../services/dados.service';
 import { Component } from '@angular/core';
 import { AlertController } from '@ionic/angular';
 import { ToastController } from '@ionic/angular';
 import { IFilmes } from '../models/IFilmes';
 import { Router } from '@angular/router';
+import { IGenero } from '../models/IGenero';
 
 
 
@@ -14,7 +18,7 @@ import { Router } from '@angular/router';
 })
 export class Tab1Page {
 
-  titulos = 'Videos App';
+  titulos = 'Filmes';
   listaVideos: IFilmes[] = [
     {
       nome: 'Homem-Aranha',
@@ -35,17 +39,35 @@ export class Tab1Page {
       pagina: '/chernobyl'
     },
   ];
+  listaFilmes: IListaFilmesA;
+
+  generos: string[]= [];
 
   constructor(
     public alertController: AlertController,
     public toastController: ToastController,
     public dadosService: DadosService,
+    public filmeService: FilmeService,
+    public generoService: GeneroService,
     public route: Router) { }
 
-    exibirFilme(filme: IFilmes){
-      this.dadosService.setData('filme', filme);
-      this.route.navigateByUrl('/dados-filme');
+
+  getFilmes(evento: any) {
+    console.log(evento.target.value);
+    const busca = evento.target.value;
+    if (busca && busca.trim() !== '') {
+      this.filmeService.getFilmes(busca).subscribe(dados => {
+        console.log(dados);
+        this.listaFilmes = dados;
+      });
     }
+
+  }
+
+  exibirFilme(filme: IFilmesApi) {
+    this.dadosService.setData('filme', filme);
+    this.route.navigateByUrl('/dados-filme');
+  }
 
   async exibirAlertFavorito() {
     const alert = await this.alertController.create({
@@ -79,6 +101,17 @@ export class Tab1Page {
       color: 'success',
     });
     toast.present();
+  }
+
+  ngOnInit() {
+    this.generoService.buscarGeneros().subscribe(dados => {
+      console.log('Generos: ', dados.genres);
+      dados.genres.forEach(genero => {
+        this.generos[genero.id] = genero.name;
+      });
+
+      this.dadosService.setData('generos', this.generos);
+    });
   }
 
 }
