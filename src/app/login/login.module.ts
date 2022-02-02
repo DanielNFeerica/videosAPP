@@ -4,17 +4,17 @@ import { FormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
-import { ChernobylPageRoutingModule } from './chernobyl-routing.module';
+import { LoginPageRoutingModule } from './login-routing.module';
 
-import { ChernobylPage } from './chernobyl.page';
+import { LoginPage } from './login.page';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    ChernobylPageRoutingModule
+    LoginPageRoutingModule
   ],
-  declarations: [ChernobylPage]
+  declarations: [LoginPage]
 })
-export class ChernobylPageModule {}
+export class LoginPageModule {}

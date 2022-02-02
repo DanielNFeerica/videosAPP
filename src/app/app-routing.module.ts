@@ -4,18 +4,21 @@ import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 const routes: Routes = [
   {
     path: '',
-    loadChildren: () => import('./tabs/tabs.module').then(m => m.TabsPageModule)
-  },  {
-    path: 'homen-aranha',
-    loadChildren: () => import('./filmes/homen-aranha/homen-aranha.module').then( m => m.HomenAranhaPageModule)
+    redirectTo: 'login',
+    pathMatch: 'full',
+
   },
   {
-    path: 'chernobyl',
-    loadChildren: () => import('./filmes/chernobyl/chernobyl.module').then( m => m.ChernobylPageModule)
+    path: '',
+    loadChildren: () => import('./tabs/tabs.module').then(m => m.TabsPageModule)
   },
   {
     path: 'dados-filme',
-    loadChildren: () => import('./dados-filme/dados-filme.module').then( m => m.DadosFilmePageModule)
+    loadChildren: () => import('./dados-filme/dados-filme.module').then(m => m.DadosFilmePageModule)
+  },
+  {
+    path: 'login',
+    loadChildren: () => import('./login/login.module').then(m => m.LoginPageModule)
   }
 
 ];
@@ -25,4 +28,4 @@ const routes: Routes = [
   ],
   exports: [RouterModule]
 })
-export class AppRoutingModule {}
+export class AppRoutingModule { }
